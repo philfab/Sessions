@@ -23,3 +23,4 @@
 /public/assets/
 /assets/vendor/
 ###< symfony/asset-mapper ###
+*.pdf,*.txt,*.pyc,*.o,*.a,*.so,*.class,*.swp,*.swo,*.swn,*.log,*.lock,*.lockfile,*.lockfile.*,*.md
