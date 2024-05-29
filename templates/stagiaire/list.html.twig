@@ -4,12 +4,18 @@
 {% endblock %}
 
 {% block body %}
-	<h1>Liste des Stagiaires</h1>
+	<div class="wrapper">
+		<h1>Liste des Stagiaires</h1>
 
-	<ul>
-		{% for stagiaire in stagiaires %}
-			<li>{{ stagiaire.nom }}
-				{{ stagiaire.prenom }}</li>
-		{% endfor %}
-	</ul>
+		<ul>
+			{% for stagiaire in stagiaires %}
+				<li>
+					<a href="{{ path('stagiaire_detail', { 'id': stagiaire.id }) }}">
+						{{ stagiaire.nom }}
+						{{ stagiaire.prenom }}
+					</a>
+				</li>
+			{% endfor %}
+		</ul>
+	</div>
 {% endblock %}

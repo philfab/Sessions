@@ -26,4 +26,18 @@ class StagiaireController extends AbstractController
             'stagiaires' => $stagiaires,
         ]);
     }
+
+    #[Route('/stagiaire/{id}', name: 'stagiaire_detail')]
+    public function detail(StagiaireRepository $stagiaireRepository, int $id): Response
+    {
+        $stagiaire = $stagiaireRepository->find($id);
+
+        if (!$stagiaire) {
+            throw $this->createNotFoundException("Le stagiaire n'existe pas");
+        }
+
+        return $this->render('stagiaire/detail.html.twig', [
+            'stagiaire' => $stagiaire,
+        ]);
+    }
 }

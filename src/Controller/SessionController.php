@@ -26,4 +26,18 @@ class SessionController extends AbstractController
             'sessions' => $sessions,
         ]);
     }
+
+    #[Route('/session/{id}', name: 'session_detail')]
+    public function detail(SessionRepository $sessionRepository, int $id): Response
+    {
+        $session = $sessionRepository->find($id);
+
+        if (!$session) {
+            throw $this->createNotFoundException("La session n'existe pas");
+        }
+
+        return $this->render('session/detail.html.twig', [
+            'session' => $session,
+        ]);
+    }
 }
