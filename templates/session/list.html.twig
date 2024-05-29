@@ -4,21 +4,25 @@
 {% endblock %}
 
 {% block body %}
-	<div class="wrapper">
+	<section class="wrapper">
 		<h1>Liste des Sessions</h1>
 
-		<ul>
-			{% for session in sessions %}
-				<li>
-					<a href="{{ path('session_detail', { 'id': session.id }) }}">
-						{{ session.intitule }}
-						-
-						{{ session.dateDebut|date('d-m-Y') }}
-						au
-						{{ session.dateFin|date('d-m-Y') }}
-					</a>
-				</li>
-			{% endfor %}
-		</ul>
-	</div>
+		<div class="session-list-container">
+			<ul class="session-list">
+				{% for session in sessions %}
+					<li>
+						<a href="{{ path('session_detail', { 'id': session.id }) }}">
+							{{ session.intitule }}
+							-
+							{{ session.dateDebut|date('d-m-Y') }}
+							au
+							{{ session.dateFin|date('d-m-Y') }}
+						</a>
+					</li>
+				{% endfor %}
+			</ul>
+		</div>
+
+		<button onclick="location.href='{{ path('session_new') }}'" class="add-btn">Ajouter une Session</button>
+	</section>
 {% endblock %}

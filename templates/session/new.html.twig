@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer une Session
+{% endblock %}
+
+{% block body %}
+	<section class="wrapper">
+		<h1>Créer une Session</h1>
+
+		<div class="session-form-container">
+			{{ form_start(session_form) }}
+			{{ form_widget(session_form) }}
+			{{ form_end(session_form) }}
+		</div>
+
+		<h2>Liste des Modules</h2>
+		<div class="module-list-container">
+			<ul class="module-list">
+				{% for module in modules %}
+					<li>{{ module.titre }}
+						{{ module.categorie.nom }}
+					</li>
+				{% else %}
+					<li>Aucun module disponible</li>
+				{% endfor %}
+			</ul>
+		</div>
+
+		<h2>Ajouter un Module</h2>
+		<div class="module-form-container">
+			{{ form_start(module_form) }}
+			{{ form_widget(module_form) }}
+			{{ form_end(module_form) }}
+		</div>
+	</section>
+{% endblock %}

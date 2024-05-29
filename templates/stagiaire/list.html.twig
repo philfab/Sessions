@@ -17,5 +17,12 @@
 				</li>
 			{% endfor %}
 		</ul>
+
+		<h2>Ajouter un Stagiaire</h2>
+		<div class="stagiaire-form-container">
+			{{ form_start(form) }}
+			{{ form_widget(form) }}
+			{{ form_end(form) }}
+		</div>
 	</div>
 {% endblock %}
