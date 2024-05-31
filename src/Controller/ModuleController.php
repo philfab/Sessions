@@ -21,23 +21,26 @@ class ModuleController extends AbstractController
         ]);
     }
 
-    #[Route('/module/new', name: 'module_new')]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    #[Route('/modules', name: 'modules_list')]
+    public function list(Request $request, EntityManagerInterface $entityManager,ModuleRepository $moduleRepository): Response
     {
+        $modules= $moduleRepository->findAll();
+    
         $module = new Module();
-        $form = $this->createForm(ModuleType::class, $module);
+        $moduleForm = $this->createForm(ModuleType::class, $module);
+        
+        $moduleForm->handleRequest($request);
 
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($moduleForm->isSubmitted() && $moduleForm->isValid()) {
             $entityManager->persist($module);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_module');
+            return $this->redirectToRoute('modules_list');
         }
 
-        return $this->render('module/new.html.twig', [
-            'form' => $form->createView(),
+        return $this->render('module/list.html.twig', [
+            'modules' => $modules,
+            'module_form' => $moduleForm->createView(),
         ]);
     }
 }

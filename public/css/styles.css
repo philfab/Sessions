@@ -92,3 +92,8 @@ ul{
 .btn:hover {
     background-color: darkorange;
 }
+
+#programmes-container{
+    display: flex;
+    flex-direction: row;
+}

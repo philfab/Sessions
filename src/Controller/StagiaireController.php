@@ -58,24 +58,5 @@ class StagiaireController extends AbstractController
         ]);
     }
 
-    #[Route('/stagiaire/new', name: 'stagiaire_new')]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
-        $stagiaire = new Stagiaire();
-        $form = $this->createForm(StagiaireType::class, $stagiaire);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($stagiaire);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('stagiaires_list');
-        }
-
-        return $this->render('stagiaire/new.html.twig', [
-            'form' => $form->createView(),
-        ]);
-    }
 }
 
