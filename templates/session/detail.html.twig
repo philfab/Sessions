@@ -34,5 +34,12 @@
 					jours)</li>
 			{% endfor %}
 		</ul>
+
+		<h2>Ajouter un stagiaire</h2>
+		<div>
+			{{ form_start(session_form) }}
+			{{ form_widget(form) }}
+			{{ form_end(session_form) }}
+		</div>
 	</div>
 {% endblock %}
