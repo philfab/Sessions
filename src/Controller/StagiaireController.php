@@ -25,15 +25,16 @@ class StagiaireController extends AbstractController
     public function list(StagiaireRepository $stagiaireRepository, Request $request, EntityManagerInterface $entityManager): Response
     {
         $stagiaires = $stagiaireRepository->findAll();
-
         $stagiaire = new Stagiaire();
         $form = $this->createForm(StagiaireType::class, $stagiaire);
-
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $entityManager->persist($stagiaire);
             $entityManager->flush();
+
+            $this->addFlash('success', 'Le stagiaire a bien été inscrit');
 
             return $this->redirectToRoute('stagiaires_list');
         }
@@ -58,5 +59,17 @@ class StagiaireController extends AbstractController
         ]);
     }
 
-}
+    #[Route('/stagiaire/delete/{id}', name: 'stagiaire_delete', methods: ['POST'])]
+    public function delete(Request $request, EntityManagerInterface $entityManager, Stagiaire $stagiaire): Response
+    {
+        if ($this->isCsrfTokenValid('delete' . $stagiaire->getId(), $request->request->get('_token'))) {
+            $entityManager->remove($stagiaire);
+            $entityManager->flush();
+            $this->addFlash('success', 'Le stagiaire a été supprimé avec succès');
+        } else {
+            $this->addFlash('error', 'Token CSRF invalide');
+        }
 
+        return $this->redirectToRoute('stagiaires_list');
+    }
+}

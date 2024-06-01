@@ -170,9 +170,9 @@ CREATE TABLE IF NOT EXISTS `stagiaire` (
 /*!40000 ALTER TABLE `stagiaire` DISABLE KEYS */;
 INSERT INTO `stagiaire` (`id`, `nom`, `prenom`, `date_naissance`, `sexe`, `email`, `ville`, `telephone`) VALUES
 	(1, 'Lemmy', 'Killmister', '1945-12-24', 1, 'lemmy.killmister@example.com', 'Burslem', '0102030405'),
-	(2, 'John', 'Bonham', '1948-05-31', 0, 'john.bonham@example.com', 'Redditch', '0607080910'),
+	(2, 'John', 'Bonham', '1948-05-31', 1, 'john.bonham@example.com', 'Redditch', '0607080910'),
 	(3, 'Eddie', 'Van_Halen', '1955-01-26', 1, 'eddie.van_halen@example.com', 'Amsterdam', '0203040506'),
-	(4, 'Iggy', 'Pop', '1947-04-21', 0, 'iggy.pop@example.com', 'Muskegen', '0708091011');
+	(4, 'Iggy', 'Pop', '1947-04-21', 1, 'iggy.pop@example.com', 'Muskegen', '0708091011');
 /*!40000 ALTER TABLE `stagiaire` ENABLE KEYS */;
 
 CREATE TABLE IF NOT EXISTS `user` (

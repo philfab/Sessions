@@ -22,6 +22,14 @@ header > nav{
     
 }
 
+.delete-item {
+    margin-top: 10px;
+}
+
+.btn{
+    font-weight: 900;
+}
+
 .alert-container {
     position: fixed;
     top: 20px;
@@ -92,41 +100,6 @@ a:hover{
     font-weight: semibold;
 }
 
-.add-btn {
-    margin-top: 20px;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 5px;
-    background-color:black;
-}
 
-.add-btn:hover {
-    background-color: rgb(78, 78, 78);
-}
-
-
-.btn {
-    background-color: burlywood;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin-top: 20px;
-    cursor: pointer;
-    border-radius: 5px;
-}
-
-.btn:hover {
-    background-color: darkorange;
-}
 
 

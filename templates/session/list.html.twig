@@ -2,13 +2,12 @@
 
 {% block body %}
 	<section class="wrapper">
-
 		<div class="session-list-container wrapper-col">
 			<h4>Liste des Sessions</h4>
 			{% if sessions %}
 				<ul>
 					{% for session in sessions %}
-						<li>
+						<li class="delete-item">
 							<a href="{{ path('session_detail', {'id': session.id}) }}">
 								{{ session.intitule }}
 								- du
@@ -16,6 +15,10 @@
 								au
 								{{ session.dateFin|date('d-m-Y') }}
 							</a>
+							<form method="post" action="{{ path('session_delete', {'id': session.id}) }}" style="display:inline;" class="delete-form">
+								<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ session.id) }}">
+								<button class="btn btn-danger btn-sm" type="submit">-</button>
+							</form>
 						</li>
 					{% endfor %}
 				</ul>
@@ -31,7 +34,4 @@
 			{{ form_end(session_form) }}
 		</div>
 	</section>
-
-	{% block javascripts %}{% endblock %}
-
 {% endblock %}

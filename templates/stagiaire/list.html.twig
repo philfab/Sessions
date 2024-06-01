@@ -9,11 +9,15 @@
 			<h4>Liste des Stagiaires</h4>
 			<ul>
 				{% for stagiaire in stagiaires %}
-					<li>
+					<li class="delete-item">
 						<a href="{{ path('stagiaire_detail', { 'id': stagiaire.id }) }}">
 							{{ stagiaire.nom }}
 							{{ stagiaire.prenom }}
 						</a>
+						<form method="post" action="{{ path('stagiaire_delete', {'id': stagiaire.id}) }}" style="display:inline;" class="delete-form">
+							<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ stagiaire.id) }}">
+							<button class="btn btn-danger btn-sm" type="submit">-</button>
+						</form>
 					</li>
 				{% endfor %}
 			</ul>

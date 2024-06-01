@@ -24,9 +24,7 @@ class SessionController extends AbstractController
         $sessions = $sessionRepository->findAll();
         $session = new Session();
         $sessionForm = $this->createForm(SessionType::class, $session);
-
         $sessionForm->handleRequest($request);
-
 
         if ($sessionForm->isSubmitted() && $sessionForm->isValid()) {
 
@@ -41,7 +39,6 @@ class SessionController extends AbstractController
                 $entityManager->flush();
                 $this->addFlash('success', 'La session a bien été inscrite.');
             }
-
             return $this->redirectToRoute('sessions_list');
         }
 
@@ -105,5 +102,19 @@ class SessionController extends AbstractController
             'inscription_form' => $inscription_form->createView(),
             'programme_form' => $programme_form->createView()
         ]);
+    }
+
+    #[Route('/session/delete/{id}', name: 'session_delete', methods: ['POST'])]
+    public function delete(Request $request, EntityManagerInterface $entityManager, Session $session): Response
+    {
+        if ($this->isCsrfTokenValid('delete' . $session->getId(), $request->request->get('_token'))) {
+            $entityManager->remove($session);
+            $entityManager->flush();
+            $this->addFlash('success', 'La session a été supprimée avec succès.');
+        } else {
+            $this->addFlash('error', 'Token CSRF invalide.');
+        }
+
+        return $this->redirectToRoute('sessions_list');
     }
 }
