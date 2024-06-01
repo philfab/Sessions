@@ -54,4 +54,18 @@ class ModuleController extends AbstractController
             'module_form' => $moduleForm->createView(),
         ]);
     }
+
+    #[Route('/module/{id}/delete', name: 'module_delete', methods: ['POST'])]
+    public function delete(Request $request, EntityManagerInterface $entityManager, Module $module): Response
+    {
+        if ($this->isCsrfTokenValid('delete' . $module->getId(), $request->request->get('_token'))) {
+            $entityManager->remove($module);
+            $entityManager->flush();
+            $this->addFlash('success', 'Le module a été supprimé avec succès.');
+        } else {
+            $this->addFlash('error', 'Token CSRF invalide.');
+        }
+
+        return $this->redirectToRoute('modules_list');
+    }
 }

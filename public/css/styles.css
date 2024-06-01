@@ -79,7 +79,6 @@ h4{
 
 }
 
-
 .wrapper-col{
     display: flex;
     flex-direction: column;
@@ -88,13 +87,15 @@ h4{
     color: ghostwhite;
     padding: 20px;
     border-radius: 10px;
-    
+    max-height: 80vh; 
+    overflow-y: auto;
 }
 
- a{
+a{
     text-decoration: none;
     color: ghostwhite;
 }
+
 a:hover{
     color:firebrick;
     font-weight: semibold;

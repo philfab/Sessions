@@ -10,8 +10,13 @@
 			<div class="module-list-container">
 				<ul class="module-list">
 					{% for module in modules %}
-						<li>{{ module.titre }}
+						<li class="delete-item">
+							{{ module.titre }}
 							({{ module.categorie.nom }})
+							<form method="post" action="{{ path('module_delete', {'id': module.id}) }}" style="display:inline;" class="delete-form">
+								<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ module.id) }}">
+								<button class="btn btn-danger btn-sm" type="submit">-</button>
+							</form>
 						</li>
 					{% else %}
 						<li>Aucun module disponible</li>

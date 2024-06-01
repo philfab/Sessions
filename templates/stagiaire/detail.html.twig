@@ -25,11 +25,15 @@
 			<h4>Sessions inscrites</h4>
 			<ul>
 				{% for inscription in stagiaire.inscriptions %}
-					<li>{{ inscription.session.intitule }}
-						(du
-						{{ inscription.session.dateDebut|date('d-m-Y') }}
-						au
-						{{ inscription.session.dateFin|date('d-m-Y') }})</li>
+					<li>
+						<a href="{{ path('session_detail', {'id': inscription.session.id}) }}">
+							{{ inscription.session.intitule }}
+							- du
+							{{ inscription.session.dateDebut|date('d-m-Y') }}
+							au
+							{{ inscription.session.dateFin|date('d-m-Y') }}
+						</a>
+					</li>
 				{% endfor %}
 			</ul>
 		</div>
