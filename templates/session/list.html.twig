@@ -2,8 +2,9 @@
 
 {% block body %}
 	<section class="wrapper">
-		<h1>Liste des Sessions</h1>
-		<div class="session-list-container">
+
+		<div class="session-list-container wrapper-col">
+			<h4>Liste des Sessions</h4>
 			{% if sessions %}
 				<ul>
 					{% for session in sessions %}
@@ -23,51 +24,14 @@
 			{% endif %}
 		</div>
 
-		<h2>Créer une Session</h2>
-		<div class="session-form-container">
+		<div class="session-list-container wrapper-col">
+			<h4>Ajouter une Session</h4>
 			{{ form_start(session_form) }}
-			<div id="programmes-container" data-prototype="{{ form_widget(session_form.programmes.vars.prototype)|e('html_attr') }}">
-				<h4>Liste des Programmes</h4>
-
-			</div>
-			<button type="button" id="add-programme-btn" class="btn btn-primary">Ajouter un programme</button>
-			{{ form_row(session_form.intitule) }}
-			{{ form_row(session_form.dateDebut) }}
-			{{ form_row(session_form.dateFin) }}
-			{{ form_row(session_form.nbPlacesTotales) }}
-			{{ form_row(session_form.formateur) }}
+			{{ form_widget(session_form) }}
 			{{ form_end(session_form) }}
 		</div>
-
 	</section>
-{% block javascripts %}
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    const container = document.querySelector('#programmes-container');
-    const addProgrammeBtn = document.getElementById('add-programme-btn');
-    let index = container.querySelectorAll('.programme-item').length;
 
-    // Function to add a new programme form
-    function addProgrammeForm() {
-        const newForm = container.getAttribute('data-prototype')
-            .replace(/__name__/g, index);
-        container.insertAdjacentHTML('beforeend', newForm);
-        index++;
-    }
-
-    // Add event listener if it's not already bound
-    if (!addProgrammeBtn.getAttribute('data-listener')) {
-        addProgrammeBtn.addEventListener('click', addProgrammeForm);
-        addProgrammeBtn.setAttribute('data-listener', 'true');
-    }
-
-    container.addEventListener('click', function (event) {
-        if (event.target.classList.contains('remove-programme-btn')) {
-            event.target.closest('.programme-item').remove();
-        }
-    });
-});
-</script>
-{% endblock %}
+	{% block javascripts %}{% endblock %}
 
 {% endblock %}

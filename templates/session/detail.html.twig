@@ -5,41 +5,59 @@
 
 {% block body %}
 	<div class="wrapper">
-		<h1>Détails de la Session</h1>
-		<p>Intitulé :
-			{{ session.intitule }}</p>
-		<p>Date de début :
-			{{ session.dateDebut|date('d-m-Y') }}</p>
-		<p>Date de fin :
-			{{ session.dateFin|date('d-m-Y') }}</p>
-		<p>Nombre de places totales :
-			{{ session.nbPlacesTotales }}</p>
-		<p>Formateur :
-			{{ session.formateur.nom }}
-			{{ session.formateur.prenom }}</p>
 
-		<h2>Stagiaires inscrits</h2>
-		<ul>
-			{% for inscription in session.inscriptions %}
-				<li>{{ inscription.stagiaire.nom }}
-					{{ inscription.stagiaire.prenom }}</li>
-			{% endfor %}
-		</ul>
-
-		<h2>Modules programmés</h2>
-		<ul>
-			{% for programme in session.programmes %}
-				<li>{{ programme.module.titre }}
-					({{ programme.nbJours }}
-					jours)</li>
-			{% endfor %}
-		</ul>
-
-		<h2>Ajouter un stagiaire</h2>
-		<div>
-			{{ form_start(session_form) }}
-			{{ form_widget(form) }}
-			{{ form_end(session_form) }}
+		<div class="session-list-container wrapper-col">
+			<h4>Détails de la Session</h4>
+			<p>Intitulé :
+				{{ session.intitule }}</p>
+			<p>Date de début :
+				{{ session.dateDebut|date('d-m-Y') }}</p>
+			<p>Date de fin :
+				{{ session.dateFin|date('d-m-Y') }}</p>
+			<p>Nombre de places totales :
+				{{ session.nbPlacesTotales }}</p>
+			<p>Formateur :
+				{{ session.formateur.nom }}
+				{{ session.formateur.prenom }}</p>
 		</div>
+
+		<div class="wrapper-col">
+			<div class="session-list-container">
+				<h4>Stagiaires inscrits</h4>
+				<ul>
+					{% for inscription in session.inscriptions %}
+						<li>{{ inscription.stagiaire.nom }}
+							{{ inscription.stagiaire.prenom }}</li>
+					{% endfor %}
+				</ul>
+			</div>
+			<div class="session-list-container">
+				<h4>Ajouter un stagiaire</h4>
+				{{ form_start(inscription_form) }}
+				{{ form_widget(inscription_form) }}
+				{{ form_end(inscription_form) }}
+			</div>
+
+		</div>
+		<div class="wrapper-col">
+			<div class="session-list-container">
+				<h4>Modules programmés</h4>
+				<ul>
+					{% for programme in session.programmes %}
+						<li>{{ programme.module.titre }}
+							({{ programme.nbJours }}
+							jours)</li>
+					{% endfor %}
+				</ul>
+			</div>
+			<div class="session-list-container">
+				<h4>Ajouter un Programme</h4>
+				{{ form_start(programme_form) }}
+				{{ form_widget(programme_form) }}
+				{{ form_end(programme_form) }}
+			</div>
+		</div>
+
+
 	</div>
 {% endblock %}

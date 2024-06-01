@@ -5,24 +5,26 @@
 
 {% block body %}
 	<div class="wrapper">
-		<h1>Liste des Stagiaires</h1>
-
-		<ul>
-			{% for stagiaire in stagiaires %}
-				<li>
-					<a href="{{ path('stagiaire_detail', { 'id': stagiaire.id }) }}">
-						{{ stagiaire.nom }}
-						{{ stagiaire.prenom }}
-					</a>
-				</li>
-			{% endfor %}
-		</ul>
-
-		<h2>Ajouter un Stagiaire</h2>
-		<div class="stagiaire-form-container">
-			{{ form_start(form) }}
-			{{ form_widget(form) }}
-			{{ form_end(form) }}
+		<div class="session-list-container wrapper-col">
+			<h4>Liste des Stagiaires</h4>
+			<ul>
+				{% for stagiaire in stagiaires %}
+					<li>
+						<a href="{{ path('stagiaire_detail', { 'id': stagiaire.id }) }}">
+							{{ stagiaire.nom }}
+							{{ stagiaire.prenom }}
+						</a>
+					</li>
+				{% endfor %}
+			</ul>
+		</div>
+		<div class="session-list-container wrapper-col">
+			<h4>Ajouter un Stagiaire</h4>
+			<div class="stagiaire-form-container">
+				{{ form_start(form) }}
+				{{ form_widget(form) }}
+				{{ form_end(form) }}
+			</div>
 		</div>
 	</div>
 {% endblock %}

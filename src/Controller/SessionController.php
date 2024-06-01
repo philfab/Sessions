@@ -2,12 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Inscrire;
 use App\Entity\Session;
-use App\Entity\Module;
-use App\Entity\Programme;
 use App\Form\SessionType;
-use App\Form\ModuleType;
-use App\Repository\ModuleRepository;
+use App\Entity\Programme;
+use App\Form\InscrireType;
+use App\Form\ProgrammeType;
 use App\Repository\SessionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,30 +15,32 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+
 class SessionController extends AbstractController
 {
     #[Route('/sessions', name: 'sessions_list')]
-    public function list(Request $request, EntityManagerInterface $entityManager, SessionRepository $sessionRepository, ModuleRepository $moduleRepository): Response
+    public function list(Request $request, EntityManagerInterface $entityManager, SessionRepository $sessionRepository): Response
     {
         $sessions = $sessionRepository->findAll();
-        $modules = $moduleRepository->findAll();
         $session = new Session();
-        $sessionForm = $this->createForm(SessionType::class, $session, [
-            'modules' => $modules
-        ]);
+        $sessionForm = $this->createForm(SessionType::class, $session);
 
         $sessionForm->handleRequest($request);
 
+
         if ($sessionForm->isSubmitted() && $sessionForm->isValid()) {
 
-            foreach ($session->getProgrammes() as $programme) {
-                if (!$programme->getSession()) {
-                    $programme->setSession($session);
-                }
-                $entityManager->persist($programme);
+            $existingSession = $entityManager->getRepository(Session::class)->findOneBy([
+                'intitule' => $session->getIntitule()
+            ]);
+
+            if ($existingSession) {
+                $this->addFlash('error', 'La session est déjà inscrite.');
+            } else {
+                $entityManager->persist($session);
+                $entityManager->flush();
+                $this->addFlash('success', 'La session a bien été inscrite.');
             }
-            $entityManager->persist($session);
-            $entityManager->flush();
 
             return $this->redirectToRoute('sessions_list');
         }
@@ -46,16 +48,62 @@ class SessionController extends AbstractController
         return $this->render('session/list.html.twig', [
             'sessions' => $sessions,
             'session_form' => $sessionForm->createView(),
-            'modules' => $modules
         ]);
     }
 
     #[Route('/session/{id}', name: 'session_detail')]
-    public function detail(Session $session): Response
+    public function detail(Session $session, Request $request, EntityManagerInterface $entityManager): Response
     {
+        $inscription = new Inscrire();
+        $inscription->setSession($session); // Associe la session ici
+        $inscription_form = $this->createForm(InscrireType::class, $inscription);
+        $inscription_form->handleRequest($request);
+
+        $programme = new Programme();
+        $programme->setSession($session);
+        $programme_form = $this->createForm(ProgrammeType::class, $programme);
+        $programme_form->handleRequest($request);
+
+        if ($inscription_form->isSubmitted() && $inscription_form->isValid()) {
+
+            $existingInscription = $entityManager->getRepository(Inscrire::class)->findOneBy([
+                'session' => $session,
+                'stagiaire' => $inscription->getStagiaire()
+            ]);
+
+            if ($existingInscription) {
+                $this->addFlash('error', 'Le stagiaire est déjà inscrit à cette session.');
+            } else {
+                $entityManager->persist($inscription);
+                $entityManager->flush();
+                $this->addFlash('success', 'Le stagiaire a été inscrit à cette session.');
+            }
+
+            return $this->redirectToRoute('session_detail', ['id' => $session->getId()]);
+        }
+
+        if ($programme_form->isSubmitted() && $programme_form->isValid()) {
+
+            $existingProgramme = $entityManager->getRepository(Programme::class)->findOneBy([
+                'session' => $session,
+                'module' => $programme->getModule()
+            ]);
+
+            if ($existingProgramme) {
+                $this->addFlash('error', 'Le programme est déjà inscrit à cette session.');
+            } else {
+                $entityManager->persist($programme);
+                $entityManager->flush();
+                $this->addFlash('success', 'Le programme a été inscrit à cette session.');
+            }
+
+            return $this->redirectToRoute('session_detail', ['id' => $session->getId()]);
+        }
 
         return $this->render('session/detail.html.twig', [
             'session' => $session,
+            'inscription_form' => $inscription_form->createView(),
+            'programme_form' => $programme_form->createView()
         ]);
     }
 }

@@ -35,14 +35,7 @@ class SessionType extends AbstractType
                 'class' => Formateur::class,
                 'choice_label' => 'nom',
             ])
-            ->add('programmes', CollectionType::class, [
-                'entry_type' => ProgrammeType::class,
-                'entry_options' => ['label' => false],
-                'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => false,
-                
-            ])
+           
             ->add('save', SubmitType::class, ['label' => 'Save Session']); // Ajouter le bouton de soumission ici
     }
 
@@ -50,7 +43,6 @@ class SessionType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Session::class,
-            'modules' => []
         ]);
     }
 }

@@ -22,18 +22,29 @@ class ModuleController extends AbstractController
     }
 
     #[Route('/modules', name: 'modules_list')]
-    public function list(Request $request, EntityManagerInterface $entityManager,ModuleRepository $moduleRepository): Response
+    public function list(Request $request, EntityManagerInterface $entityManager, ModuleRepository $moduleRepository): Response
     {
-        $modules= $moduleRepository->findAll();
-    
+        $modules = $moduleRepository->findAll();
+
         $module = new Module();
         $moduleForm = $this->createForm(ModuleType::class, $module);
-        
+
         $moduleForm->handleRequest($request);
 
         if ($moduleForm->isSubmitted() && $moduleForm->isValid()) {
-            $entityManager->persist($module);
-            $entityManager->flush();
+
+
+            $existingModule = $entityManager->getRepository(Module::class)->findOneBy([
+                'titre' => $module->getTitre()
+            ]);
+
+            if ($existingModule) {
+                $this->addFlash('error', 'Le Module existe deja.');
+            } else {
+                $entityManager->persist($module);
+                $entityManager->flush();
+                $this->addFlash('success', 'Le Module a bien été créé');
+            }
 
             return $this->redirectToRoute('modules_list');
         }
