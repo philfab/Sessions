@@ -54,11 +54,22 @@ class StagiaireController extends AbstractController
             throw $this->createNotFoundException("Le stagiaire n'existe pas");
         }
 
+        // Calcul des places restantes pour chaque session
+        $sessionsWithRemainingPlaces = [];
+        foreach ($stagiaire->getInscriptions() as $inscription) {
+            $session = $inscription->getSession();
+            $placesRestantes = $session->getNbPlacesTotales() - count($session->getInscriptions());
+            $sessionsWithRemainingPlaces[] = [
+                'session' => $session,
+                'placesRestantes' => $placesRestantes
+            ];
+        }
+
         return $this->render('stagiaire/detail.html.twig', [
             'stagiaire' => $stagiaire,
+            'sessionsWithRemainingPlaces' => $sessionsWithRemainingPlaces,
         ]);
     }
-
     #[Route('/stagiaire/delete/{id}', name: 'stagiaire_delete', methods: ['POST'])]
     public function delete(Request $request, EntityManagerInterface $entityManager, Stagiaire $stagiaire): Response
     {

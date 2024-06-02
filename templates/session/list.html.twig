@@ -6,14 +6,23 @@
 			<h4>Liste des Sessions</h4>
 			{% if sessions %}
 				<ul>
-					{% for session in sessions %}
+					{% for sessionWithPlaces in sessions %}
+						{% set session = sessionWithPlaces.session %}
+						{% set placesRestantes = sessionWithPlaces.placesRestantes %}
 						<li class="delete-item">
 							<a href="{{ path('session_detail', {'id': session.id}) }}">
-								{{ session.intitule }}
-								- du
+								{{ session.intitule }} :
+								<br>
+								Du
 								{{ session.dateDebut|date('d-m-Y') }}
 								au
 								{{ session.dateFin|date('d-m-Y') }}
+								|
+								{{ session.formateur.nom }}
+								{{ session.formateur.prenom }}
+								|
+								                                ({{ placesRestantes }}
+								places restantes)
 							</a>
 							<form method="post" action="{{ path('session_delete', {'id': session.id}) }}" style="display:inline;" class="delete-form">
 								<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ session.id) }}">

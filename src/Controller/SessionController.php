@@ -27,10 +27,7 @@ class SessionController extends AbstractController
         $sessionForm->handleRequest($request);
 
         if ($sessionForm->isSubmitted() && $sessionForm->isValid()) {
-
-            $existingSession = $entityManager->getRepository(Session::class)->findOneBy([
-                'intitule' => $session->getIntitule()
-            ]);
+            $existingSession = $entityManager->getRepository(Session::class)->findOneBy(['intitule' => $session->getIntitule()]);
 
             if ($existingSession) {
                 $this->addFlash('error', 'La session est déjà inscrite.');
@@ -42,8 +39,17 @@ class SessionController extends AbstractController
             return $this->redirectToRoute('sessions_list');
         }
 
+        $sessionsWithRemainingPlaces = [];
+        foreach ($sessions as $session) {
+            $placesRestantes = $session->getNbPlacesTotales() - count($session->getInscriptions());
+            $sessionsWithRemainingPlaces[] = [
+                'session' => $session,
+                'placesRestantes' => $placesRestantes
+            ];
+        }
+
         return $this->render('session/list.html.twig', [
-            'sessions' => $sessions,
+            'sessions' => $sessionsWithRemainingPlaces,
             'session_form' => $sessionForm->createView(),
         ]);
     }

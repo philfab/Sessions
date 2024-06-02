@@ -40,7 +40,12 @@ class StagiaireType extends AbstractType
             ->add('email', EmailType::class)
             ->add('ville', TextType::class)
             ->add('telephone', TextType::class)
-            ->add('save', SubmitType::class, ['label' => 'Créer Stagiaire']);
+            ->add('save', SubmitType::class, [
+                'label' => 'Créer Stagiaire',
+                'attr' => [
+                    'class' => 'btn btn-success'
+                ]
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

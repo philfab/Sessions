@@ -22,7 +22,10 @@ class ModuleType extends AbstractType
                 'class' => Categorie::class,
                 'choice_label' => 'nom',
             ])
-            ->add('save', SubmitType::class, ['label' => 'Créer Module']);
+            ->add('save', SubmitType::class, [
+                'label' => 'Créer Module',
+                'attr' => ['class' => 'btn btn-success']
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

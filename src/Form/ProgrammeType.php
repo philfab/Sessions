@@ -32,7 +32,12 @@ class ProgrammeType extends AbstractType
                     'value' => 1
                 ]
             ])
-            ->add('save', SubmitType::class, ['label' => 'Ajouter Programme']);
+            ->add('save', SubmitType::class, [
+                'label' => 'Ajouter Programme',
+                'attr' => [
+                    'class' => 'btn btn-success'
+                ]
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

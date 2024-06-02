@@ -100,6 +100,14 @@ a:hover{
     font-weight: semibold;
 }
 
+.btn-success {
+    font-weight: normal;
+}
+
+.session-intitule{
+    font-size: larger;
+    font-weight: bold;
+}
 
 
 

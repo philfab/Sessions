@@ -26,7 +26,8 @@ class InscrireType extends AbstractType
 
 
         $builder->add('save', SubmitType::class, [
-            'label' => 'Inscrire Stagiaire'
+            'label' => 'Inscrire Stagiaire',
+            'attr' => ['class' => 'btn btn-success']
         ]);
     }
 

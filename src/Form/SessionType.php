@@ -35,8 +35,11 @@ class SessionType extends AbstractType
                 'class' => Formateur::class,
                 'choice_label' => 'nom',
             ])
-           
-            ->add('save', SubmitType::class, ['label' => 'Save Session']); // Ajouter le bouton de soumission ici
+
+            ->add('save', SubmitType::class, [
+                'label' => 'Ajouter Session',
+                'attr' => ['class' => 'btn btn-success']
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

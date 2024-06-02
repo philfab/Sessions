@@ -1,63 +1,75 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Détails de la Session{% endblock %}
+{% block title %}Détails de la Session
+{% endblock %}
 
 {% block body %}
-    <div class="wrapper">
-        <div class="session-list-container wrapper-col">
-            <h4>Détails de la Session</h4>
-            <p>Intitulé : {{ session.intitule }}</p>
-            <p>Date de début : {{ session.dateDebut|date('d-m-Y') }}</p>
-            <p>Date de fin : {{ session.dateFin|date('d-m-Y') }}</p>
-            <p>Nombre de places totales : {{ session.nbPlacesTotales }}</p>
-            <p>Nombre de places restantes : {{ places_restantes }}</p>
-            <p>Formateur : {{ session.formateur.nom }} {{ session.formateur.prenom }}</p>
-        </div>
+	<div class="wrapper">
+		<div class="session-list-container wrapper-col">
+			<h4>Détails de la Session</h4>
+			<p>Intitulé :
+				<span class="session-intitule">{{ session.intitule }}</span>
+			</p>
+			<p>Date de début :
+				{{ session.dateDebut|date('d-m-Y') }}</p>
+			<p>Date de fin :
+				{{ session.dateFin|date('d-m-Y') }}</p>
+			<p>Nombre de places totales :
+				{{ session.nbPlacesTotales }}</p>
+			<p>Nombre de places restantes :
+				{{ places_restantes }}</p>
+			<p>Formateur :
+				{{ session.formateur.nom }}
+				{{ session.formateur.prenom }}</p>
+		</div>
 
-        <div class="wrapper-col">
-            <div class="session-list-container">
-                <h4>Stagiaires inscrits</h4>
-                <ul>
-                    {% for inscription in session.inscriptions %}
-                        <li class="delete-item">
-                            {{ inscription.stagiaire.nom }} {{ inscription.stagiaire.prenom }}
-                            <form method="post" action="{{ path('inscription_delete', {'id': inscription.id}) }}" style="display:inline;" class="delete-form">
-                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ inscription.stagiaire.id) }}">
-                                <button class="btn btn-danger btn-sm" type="submit">-</button>
-                            </form>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </div>
-            <div class="session-list-container">
-                <h4>Ajouter un stagiaire</h4>
-                {{ form_start(inscription_form) }}
-                {{ form_widget(inscription_form) }}
-                {{ form_end(inscription_form) }}
-            </div>
-        </div>
+		<div class="wrapper-col">
+			<div class="session-list-container">
+				<h4>Stagiaires inscrits</h4>
+				<ul>
+					{% for inscription in session.inscriptions %}
+						<li class="delete-item">
+							{{ inscription.stagiaire.nom }}
+							{{ inscription.stagiaire.prenom }}
+							<form method="post" action="{{ path('inscription_delete', {'id': inscription.id}) }}" style="display:inline;" class="delete-form">
+								<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ inscription.stagiaire.id) }}">
+								<button class="btn btn-danger btn-sm" type="submit">-</button>
+							</form>
+						</li>
+					{% endfor %}
+				</ul>
+			</div>
+			<div class="session-list-container">
+				<h4>Ajouter un stagiaire</h4>
+				{{ form_start(inscription_form) }}
+				{{ form_widget(inscription_form) }}
+				{{ form_end(inscription_form) }}
+			</div>
+		</div>
 
-        <div class="wrapper-col">
-            <div class="session-list-container">
-                <h4>Modules programmés</h4>
-                <ul>
-                    {% for programme in session.programmes %}
-                        <li class="delete-item">
-                            {{ programme.module.titre }} ({{ programme.nbJours }} jours)
-                            <form method="post" action="{{ path('programme_delete', {'id': programme.id}) }}" style="display:inline;" class="delete-form">
-                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ programme.id) }}">
-                                <button class="btn btn-danger btn-sm" type="submit">-</button>
-                            </form>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </div>
-            <div class="session-list-container">
-                <h4>Ajouter un Programme</h4>
-                {{ form_start(programme_form) }}
-                {{ form_widget(programme_form) }}
-                {{ form_end(programme_form) }}
-            </div>
-        </div>
-    </div>
+		<div class="wrapper-col">
+			<div class="session-list-container">
+				<h4>Modules programmés</h4>
+				<ul>
+					{% for programme in session.programmes %}
+						<li class="delete-item">
+							{{ programme.module.titre }}
+							({{ programme.nbJours }}
+							jours)
+							<form method="post" action="{{ path('programme_delete', {'id': programme.id}) }}" style="display:inline;" class="delete-form">
+								<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ programme.id) }}">
+								<button class="btn btn-danger btn-sm" type="submit">-</button>
+							</form>
+						</li>
+					{% endfor %}
+				</ul>
+			</div>
+			<div class="session-list-container">
+				<h4>Ajouter un Programme</h4>
+				{{ form_start(programme_form) }}
+				{{ form_widget(programme_form) }}
+				{{ form_end(programme_form) }}
+			</div>
+		</div>
+	</div>
 {% endblock %}
