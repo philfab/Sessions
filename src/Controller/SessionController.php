@@ -97,10 +97,14 @@ class SessionController extends AbstractController
             return $this->redirectToRoute('session_detail', ['id' => $session->getId()]);
         }
 
+        // Calcul du nombre de places restantes
+        $placesRestantes = $session->getNbPlacesTotales() - count($session->getInscriptions());
+
         return $this->render('session/detail.html.twig', [
             'session' => $session,
             'inscription_form' => $inscription_form->createView(),
-            'programme_form' => $programme_form->createView()
+            'programme_form' => $programme_form->createView(),
+            'places_restantes' => $placesRestantes
         ]);
     }
 
@@ -116,5 +120,36 @@ class SessionController extends AbstractController
         }
 
         return $this->redirectToRoute('sessions_list');
+    }
+    #[Route('/inscription/delete/{id}', name: 'inscription_delete', methods: ['POST'])]
+    public function deleteInscription(Request $request, Inscrire $inscription, EntityManagerInterface $entityManager): Response
+    {
+        $sessionId = $inscription->getSession()->getId();
+
+        if ($this->isCsrfTokenValid('delete' . $inscription->getStagiaire()->getId(), $request->request->get('_token'))) {
+            $entityManager->remove($inscription);
+            $entityManager->flush();
+            $this->addFlash('success', 'Le stagiaire a été désinscrit de la session.');
+        } else {
+            $this->addFlash('error', 'Token CSRF invalide.');
+        }
+
+        return $this->redirectToRoute('session_detail', ['id' => $sessionId]);
+    }
+
+    #[Route('/programme/delete/{id}', name: 'programme_delete', methods: ['POST'])]
+    public function deleteProgramme(Request $request, Programme $programme, EntityManagerInterface $entityManager): Response
+    {
+        $sessionId = $programme->getSession()->getId();
+        
+        if ($this->isCsrfTokenValid('delete' . $programme->getId(), $request->request->get('_token'))) {
+            $entityManager->remove($programme);
+            $entityManager->flush();
+            $this->addFlash('success', 'Le programme a été supprimé de la session.');
+        } else {
+            $this->addFlash('error', 'Token CSRF invalide.');
+        }
+
+        return $this->redirectToRoute('session_detail', ['id' => $sessionId]);
     }
 }
