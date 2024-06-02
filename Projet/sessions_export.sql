@@ -178,15 +178,18 @@ INSERT INTO `stagiaire` (`id`, `nom`, `prenom`, `date_naissance`, `sexe`, `email
 CREATE TABLE IF NOT EXISTS `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `pseudo` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(180) COLLATE utf8mb4_unicode_ci NOT NULL,
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `roles` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `roles` json NOT NULL,
+  `is_verified` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UNIQ_IDENTIFIER_EMAIL` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` (`id`, `pseudo`, `email`, `password`, `roles`) VALUES
-	(1, 'phil_admin', 'phil_admin@gmail.com', '$2y$10$pLIQ9qY4GMCQCd5Pbi5ZLueAp5051y5H7BWeBuTpsBBixHgXbZovK', 'ROLE_ADMIN');
+/* Password : 1234 */;
+INSERT INTO `user` (`id`, `pseudo`, `email`, `password`, `roles`, `is_verified`) VALUES
+	(1, 'phil', 'phil@gmail.com', '$2y$13$6bDjuxk/.PToMpv1JA/hXuUaQdUJ2m7/m6R9EnxRVb1cacFXWGceu', '["ROLE_ADMIN"]', 1);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

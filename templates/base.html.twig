@@ -8,6 +8,7 @@
 		</title>
 		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
 		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
 		{% block stylesheets %}
 			<link rel="stylesheet" href="{{ asset('css/styles.css') }}">
 		{% endblock %}
@@ -34,16 +35,25 @@
 		</div>
 
 		{# Afficher la navigation seulement si l'utilisateur est connecté #}
-		{# {% if app.user %} #}
-		<header>
-			<nav>
-				<a href="{{ path('sessions_list') }}">Sessions</a>
-				<a href="{{ path('stagiaires_list') }}">Stagiaires</a>
-				<a href="{{ path('modules_list') }}">Modules</a>
-				{# <a class="logout" href="{{ path('app_logout') }}">Logout</a> #}
-			</nav>
-		</header>
-		{# {% endif %} #}
+		{% if app.user %}
+			<header>
+				<nav>
+					<a href="{{ path('sessions_list') }}">Sessions</a>
+					<a href="{{ path('stagiaires_list') }}">Stagiaires</a>
+					<a href="{{ path('modules_list') }}">Modules</a>
+					<span>
+						<i class="fas fa-user"></i>
+						{{ app.user.pseudo }}
+						{% if 'ROLE_ADMIN' in app.user.roles %}
+							(admin)
+						{% else %}
+							(user)
+						{% endif %}
+					</span>
+					<a class="logout" href="{{ path('app_logout') }}">Logout</a>
+				</nav>
+			</header>
+		{% endif %}
 
 		{% block body %}{% endblock %}
 
