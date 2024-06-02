@@ -18,7 +18,8 @@ INSERT INTO `categorie` (`id`, `nom`) VALUES
 	(1, 'Informatique'),
 	(2, 'Bureautique'),
 	(3, 'Design'),
-	(4, 'Langues');
+	(4, 'Langues'),
+  (5, 'DEV Web');
 /*!40000 ALTER TABLE `categorie` ENABLE KEYS */;
 
 CREATE TABLE IF NOT EXISTS `formateur` (
@@ -31,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `formateur` (
 
 /*!40000 ALTER TABLE `formateur` DISABLE KEYS */;
 INSERT INTO `formateur` (`id`, `nom`, `prenom`, `email`) VALUES
-	(1, 'mur', 'mika', 'mur.mika@example.com'),
+	(1, 'mika', 'mur', 'mur.mika@example.com'),
 	(2, 'steph', 'smail', 'steph.smail@example.com'),
 	(3, 'quentin', 'thebest', 'quentin.thebest@example.com'),
 	(4, 'moi', 'lenul', 'moi.lenul@example.com');
