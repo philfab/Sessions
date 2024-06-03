@@ -31,11 +31,11 @@ CREATE TABLE IF NOT EXISTS `formateur` (
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*!40000 ALTER TABLE `formateur` DISABLE KEYS */;
-INSERT INTO `formateur` (`id`, `nom`, `prenom`, `email`) VALUES
-	(1, 'mika', 'mur', 'mur.mika@example.com'),
-	(2, 'steph', 'smail', 'steph.smail@example.com'),
-	(3, 'quentin', 'thebest', 'quentin.thebest@example.com'),
-	(4, 'moi', 'lenul', 'moi.lenul@example.com');
+INSERT INTO `formateur` (`id`, `prenom`, `nom`, `email`) VALUES
+	(1, 'Mickael', 'Murmann', 'mickael.murmann@example.com'),
+	(2, 'Stephane', 'Smail', 'stephane.smail@example.com'),
+	(3, 'Quentin', 'Mathieu', 'quentin.mathieu@example.com'),
+  (4, 'Barbora', 'Dauzere', 'barbora.dauzere@example.com');
 /*!40000 ALTER TABLE `formateur` ENABLE KEYS */;
 
 CREATE TABLE IF NOT EXISTS `inscrire` (
@@ -169,7 +169,7 @@ CREATE TABLE IF NOT EXISTS `stagiaire` (
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*!40000 ALTER TABLE `stagiaire` DISABLE KEYS */;
-INSERT INTO `stagiaire` (`id`, `nom`, `prenom`, `date_naissance`, `sexe`, `email`, `ville`, `telephone`) VALUES
+INSERT INTO `stagiaire` (`id`, `prenom`, `nom`, `date_naissance`, `sexe`, `email`, `ville`, `telephone`) VALUES
 	(1, 'Lemmy', 'Killmister', '1945-12-24', 1, 'lemmy.killmister@example.com', 'Burslem', '0102030405'),
 	(2, 'John', 'Bonham', '1948-05-31', 1, 'john.bonham@example.com', 'Redditch', '0607080910'),
 	(3, 'Eddie', 'Van_Halen', '1955-01-26', 1, 'eddie.van_halen@example.com', 'Amsterdam', '0203040506'),

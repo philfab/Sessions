@@ -18,6 +18,7 @@ class InscrireType extends AbstractType
         $builder
             ->add('stagiaire', EntityType::class, [
                 'class' => Stagiaire::class,
+                'choices' => $options['stagiaires_non_inscrits'],
                 'choice_label' => function (Stagiaire $stagiaire) {
                     return sprintf('%s %s', $stagiaire->getNom(), $stagiaire->getPrenom());
                 },
@@ -35,6 +36,7 @@ class InscrireType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Inscrire::class,
+            'stagiaires_non_inscrits' => [],
         ]);
     }
 }

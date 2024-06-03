@@ -29,7 +29,9 @@ class SessionType extends AbstractType
             ->add('nbPlacesTotales', IntegerType::class)
             ->add('formateur', EntityType::class, [
                 'class' => Formateur::class,
-                'choice_label' => 'nom',
+                'choice_label' => function (Formateur $formateur) {
+                    return sprintf('%s %s', $formateur->getPrenom(), $formateur->getNom());
+                },
             ])
 
             ->add('save', SubmitType::class, [

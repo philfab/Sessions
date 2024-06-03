@@ -21,6 +21,7 @@ class ProgrammeType extends AbstractType
         $builder
             ->add('module', EntityType::class, [
                 'class' => Module::class,
+                'choices' => $options['modules_non_programmes'],
                 'choice_label' => 'titre',
                 'label' => 'Module',
             ])
@@ -44,6 +45,7 @@ class ProgrammeType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Programme::class,
+            'modules_non_programmes' => [],
         ]);
     }
 }

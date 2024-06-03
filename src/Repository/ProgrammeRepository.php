@@ -15,7 +15,22 @@ class ProgrammeRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Programme::class);
     }
+    public function findNonProgrammes($sessionId)
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
 
+        $subQb = $this->getEntityManager()->createQueryBuilder();
+        $subQb->select('IDENTITY(p.module)')
+              ->from('App\Entity\Programme', 'p')
+              ->where('p.session = :sessionId');
+
+        $qb->select('m')
+           ->from('App\Entity\Module', 'm')
+           ->where($qb->expr()->notIn('m.id', $subQb->getDQL()))
+           ->setParameter('sessionId', $sessionId);
+
+        return $qb->getQuery()->getResult();
+    }
     //    /**
     //     * @return Programme[] Returns an array of Programme objects
     //     */

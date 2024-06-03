@@ -14,7 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+use App\Repository\ProgrammeRepository;
 
 class SessionController extends AbstractController
 {
@@ -55,17 +55,24 @@ class SessionController extends AbstractController
     }
 
     #[Route('/session/{id}', name: 'session_detail')]
-    public function detail(Session $session, Request $request, EntityManagerInterface $entityManager): Response
+    public function detail(Session $session, Request $request, EntityManagerInterface $entityManager, SessionRepository $sessionRepository, ProgrammeRepository $programmeRepository): Response
     {
         $inscription = new Inscrire();
         $inscription->setSession($session); // Associe la session ici
-        $inscription_form = $this->createForm(InscrireType::class, $inscription);
+        $stagiairesNonInscrits = $sessionRepository->findNonInscrits($session->getId());
+        $inscription_form = $this->createForm(InscrireType::class, $inscription, [
+            'stagiaires_non_inscrits' => $stagiairesNonInscrits,
+        ]);
         $inscription_form->handleRequest($request);
 
         $programme = new Programme();
         $programme->setSession($session);
-        $programme_form = $this->createForm(ProgrammeType::class, $programme);
+        $modulesNonProgrammes = $programmeRepository->findNonProgrammes($session->getId());
+        $programme_form = $this->createForm(ProgrammeType::class, $programme, [
+            'modules_non_programmes' => $modulesNonProgrammes,
+        ]);
         $programme_form->handleRequest($request);
+
 
         if ($inscription_form->isSubmitted() && $inscription_form->isValid()) {
 
@@ -147,7 +154,7 @@ class SessionController extends AbstractController
     public function deleteProgramme(Request $request, Programme $programme, EntityManagerInterface $entityManager): Response
     {
         $sessionId = $programme->getSession()->getId();
-        
+
         if ($this->isCsrfTokenValid('delete' . $programme->getId(), $request->request->get('_token'))) {
             $entityManager->remove($programme);
             $entityManager->flush();
