@@ -22,13 +22,9 @@ class SessionType extends AbstractType
             ->add('intitule', TextType::class)
             ->add('dateDebut', DateType::class, [
                 'widget' => 'single_text',
-                'html5' => false,
-                'format' => 'dd-MM-yyyy',
             ])
             ->add('dateFin', DateType::class, [
                 'widget' => 'single_text',
-                'html5' => false,
-                'format' => 'dd-MM-yyyy',
             ])
             ->add('nbPlacesTotales', IntegerType::class)
             ->add('formateur', EntityType::class, [

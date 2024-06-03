@@ -21,11 +21,9 @@ class StagiaireType extends AbstractType
             ->add('prenom', TextType::class)
             ->add('dateNaissance', DateType::class, [
                 'widget' => 'single_text',
-                'format' => 'dd-MM-yyyy',
                 'attr' => ['class' => 'datepicker'],
                 'label' => 'Date de naissance',
                 'required' => true,
-                'html5' => false,
             ])
             ->add('sexe', ChoiceType::class, [
                 'choices' => [
